@@ -45,6 +45,7 @@ function App() {
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Landing />} />
+            <Route path="/verify" element={<VerifyCertificate />} />
             <Route path="/verify/:certificateId" element={<VerifyCertificate />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
