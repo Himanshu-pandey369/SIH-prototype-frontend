@@ -93,7 +93,7 @@ const Register = () => {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="e.g. Rahul Sharma"
+                placeholder="e.g. Pawan Sharma"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"
               />
             </div>
