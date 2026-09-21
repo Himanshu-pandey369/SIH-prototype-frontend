@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShieldCheck, Mail, Lock, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
+import { ShieldCheck, Mail, Lock, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import ErrorMessage from '../../components/ErrorMessage';
 
@@ -48,22 +48,6 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  // Quick Demo Credentials Fill for Testing / SIH Examiners
-  const fillCredentials = (role) => {
-    if (role === 'admin') {
-      setFormData({
-        email: 'admin@aisafe.org',
-        password: 'Admin@123456',
-      });
-    } else {
-      setFormData({
-        email: 'birsa.munda@mining.in',
-        password: 'WorkerSafe@2026',
-      });
-    }
-    setError('');
   };
 
   return (
@@ -136,30 +120,6 @@ const Login = () => {
             )}
           </button>
         </form>
-
-        {/* Quick Demo Examiner Helper */}
-        <div className="p-3 bg-amber-50/70 border border-amber-200 rounded-xl space-y-2">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Examiner Quick Login:</span>
-          </div>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => fillCredentials('admin')}
-              className="flex-1 py-1.5 px-2 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-lg text-[11px] font-bold transition-colors"
-            >
-              Fill Default Admin
-            </button>
-            <button
-              type="button"
-              onClick={() => fillCredentials('worker')}
-              className="flex-1 py-1.5 px-2 bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-lg text-[11px] font-bold transition-colors"
-            >
-              Fill Sample Worker
-            </button>
-          </div>
-        </div>
 
         {/* Footer Link */}
         <div className="text-center pt-2 border-t border-slate-100 text-xs text-slate-600">

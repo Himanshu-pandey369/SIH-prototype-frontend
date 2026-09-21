@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShieldCheck, User, Mail, Lock, Building2, Languages, ArrowRight } from 'lucide-react';
+import { ShieldCheck, User, Mail, Lock, Building2, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { INDUSTRIES, LANGUAGES } from '../../utils/constants';
+import { INDUSTRIES } from '../../utils/constants';
 import ErrorMessage from '../../components/ErrorMessage';
 
 const Register = () => {
@@ -117,47 +117,24 @@ const Register = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-                Industry Sector
-              </label>
-              <div className="relative">
-                <Building2 className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
-                <select
-                  name="industry"
-                  value={formData.industry}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"
-                >
-                  {INDUSTRIES.map((ind) => (
-                    <option key={ind.value} value={ind.value}>
-                      {ind.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
-                Language Preference
-              </label>
-              <div className="relative">
-                <Languages className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
-                <select
-                  name="preferredLanguage"
-                  value={formData.preferredLanguage}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"
-                >
-                  {LANGUAGES.map((lang) => (
-                    <option key={lang.code} value={lang.code}>
-                      {lang.native} ({lang.label})
-                    </option>
-                  ))}
-                </select>
-              </div>
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+              Industry Sector
+            </label>
+            <div className="relative">
+              <Building2 className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5 pointer-events-none" />
+              <select
+                name="industry"
+                value={formData.industry}
+                onChange={handleChange}
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"
+              >
+                {INDUSTRIES.map((ind) => (
+                  <option key={ind.value} value={ind.value}>
+                    {ind.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
