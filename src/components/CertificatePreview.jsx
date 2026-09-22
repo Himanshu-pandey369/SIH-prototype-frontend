@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Award, CheckCircle2, XCircle, Printer, Shield, ShieldCheck } from 'lucide-react';
 import { formatDate } from '../utils/formatDate';
+import { getVerificationUrl, generateQRCodeDataUrl } from '../utils/qrHelper';
 
 const CertificatePreview = ({ certificate, onPrint }) => {
-  if (!certificate) return null;
+  const [dynamicQrUrl, setDynamicQrUrl] = useState('');
 
-  const isValid = certificate.status === 'valid';
+  const isValid = certificate?.status === 'valid';
+  const verificationUrl = certificate?.certificateId ? getVerificationUrl(certificate.certificateId) : '';
+
+  useEffect(() => {
+    let isMounted = true;
+    if (verificationUrl) {
+      generateQRCodeDataUrl(verificationUrl).then((dataUrl) => {
+        if (isMounted && dataUrl) {
+          setDynamicQrUrl(dataUrl);
+        }
+      });
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, [verificationUrl]);
+
+  if (!certificate) return null;
 
   const handlePrint = () => {
     if (onPrint) {
@@ -14,6 +32,8 @@ const CertificatePreview = ({ certificate, onPrint }) => {
       window.print();
     }
   };
+
+  const qrSrc = dynamicQrUrl || certificate.qrCodeDataUrl;
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -117,10 +137,10 @@ const CertificatePreview = ({ certificate, onPrint }) => {
 
             {/* Center: Base64 QR Code */}
             <div className="flex flex-col items-center justify-center text-center">
-              {certificate.qrCodeDataUrl ? (
+              {qrSrc ? (
                 <div className="p-1.5 bg-white border border-slate-300 rounded shadow-sm">
                   <img
-                    src={certificate.qrCodeDataUrl}
+                    src={qrSrc}
                     alt={`QR Verification for ${certificate.certificateId}`}
                     className="w-24 h-24 object-contain"
                   />
@@ -141,8 +161,8 @@ const CertificatePreview = ({ certificate, onPrint }) => {
                 <span className="font-mono text-xs font-bold text-slate-800">{certificate.certificateId}</span>
               </div>
               <p className="text-[10px] uppercase font-bold text-slate-500 mt-1">Digital Certificate ID</p>
-              <p className="text-[9px] text-slate-400 font-mono">
-                {window.location.origin}/verify/{certificate.certificateId}
+              <p className="text-[9px] text-slate-400 font-mono break-all max-w-[200px]">
+                {verificationUrl || `${window.location.origin}/verify/${certificate.certificateId}`}
               </p>
             </div>
           </div>

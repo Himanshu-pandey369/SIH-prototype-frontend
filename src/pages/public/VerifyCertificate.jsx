@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { certificateApi } from '../../services/certificateApi';
 import { formatDate } from '../../utils/formatDate';
+import { getVerificationUrl, generateQRCodeDataUrl } from '../../utils/qrHelper';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 const VerifyCertificate = () => {
@@ -22,6 +23,7 @@ const VerifyCertificate = () => {
 
   const [loading, setLoading] = useState(false);
   const [certData, setCertData] = useState(null);
+  const [dynamicQrUrl, setDynamicQrUrl] = useState('');
   const [errorStatus, setErrorStatus] = useState(null); // 'not_found' | 'error' | null
   const [errorMessage, setErrorMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState(certificateId || '');
@@ -35,11 +37,21 @@ const VerifyCertificate = () => {
     }
   }, [certificateId]);
 
+  useEffect(() => {
+    if (certData?.certificateId) {
+      const url = getVerificationUrl(certData.certificateId);
+      generateQRCodeDataUrl(url).then((qr) => {
+        if (qr) setDynamicQrUrl(qr);
+      });
+    }
+  }, [certData]);
+
   const verifyId = async (id) => {
     setLoading(true);
     setErrorStatus(null);
     setErrorMessage('');
     setCertData(null);
+    setDynamicQrUrl('');
 
     try {
       const response = await certificateApi.verifyCertificate(id.trim().toUpperCase());
@@ -245,10 +257,10 @@ const VerifyCertificate = () => {
                     </p>
                   </div>
 
-                  {certData.qrCodeDataUrl && (
+                  {(dynamicQrUrl || certData.qrCodeDataUrl) && (
                     <div className="p-1 bg-white border border-slate-200 rounded shadow-sm shrink-0">
                       <img
-                        src={certData.qrCodeDataUrl}
+                        src={dynamicQrUrl || certData.qrCodeDataUrl}
                         alt="Verification QR"
                         className="w-16 h-16 object-contain"
                       />
