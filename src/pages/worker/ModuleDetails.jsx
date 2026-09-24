@@ -12,6 +12,7 @@ import {
   ExternalLink,
   RotateCcw,
   Sparkles,
+  Download,
 } from 'lucide-react';
 import { moduleApi } from '../../services/moduleApi';
 import { progressApi } from '../../services/progressApi';
@@ -112,6 +113,17 @@ const ModuleDetails = () => {
     } finally {
       setUpdatingStep(false);
     }
+  };
+
+  const handleDownloadApk = (e) => {
+    e?.preventDefault?.();
+    const apkUrl = module?.apkUrl || '/downloads/ai-safe-ar.apk';
+    const link = document.createElement('a');
+    link.href = apkUrl;
+    link.download = `${module?.moduleId || 'AISafe'}-AR-Training.apk`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   if (loading) {
@@ -244,11 +256,21 @@ const ModuleDetails = () => {
 
             <div className="space-y-3 pt-2">
               <button
-                onClick={() => setArModalOpen(true)}
+                type="button"
+                onClick={handleDownloadApk}
                 className="w-full py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-sm transition-colors flex items-center justify-center gap-2"
               >
+                <Download className="w-4 h-4" />
+                <span>Download APK (Android AR)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setArModalOpen(true)}
+                className="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition-colors flex items-center justify-center gap-2 border border-slate-200"
+              >
                 <Smartphone className="w-4 h-4" />
-                <span>Start AR Training (Android)</span>
+                <span>AR Instructions & Guide</span>
               </button>
 
               <Link
@@ -370,7 +392,15 @@ const ModuleDetails = () => {
             </ol>
           </div>
 
-          <div className="pt-4 border-t border-slate-100 flex justify-end gap-3">
+          <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={handleDownloadApk}
+              className="px-4 py-2 text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download APK</span>
+            </button>
             <button
               onClick={() => setArModalOpen(false)}
               className="px-4 py-2 text-xs font-semibold bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors"
