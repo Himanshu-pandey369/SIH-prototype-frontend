@@ -117,7 +117,7 @@ const ModuleDetails = () => {
 
   const handleDownloadApk = (e) => {
     e?.preventDefault?.();
-    const apkUrl = module?.apkUrl || '/downloads/ai-safe-ar.apk';
+    const apkUrl = "https://github.com/Himanshu-pandey369/SIH-prototype-frontend/releases/download/v1.0.0/app-debug.apk";
     const link = document.createElement('a');
     link.href = apkUrl;
     link.download = `${module?.moduleId || 'AISafe'}-AR-Training.apk`;
